@@ -38,7 +38,7 @@ class PongGame extends SurfaceView implements Runnable {
     //thread
     private Thread mGameThread = null;
     private volatile boolean mPlaying;
-    private boolean mPause = true;
+    private boolean mPaused = true;
 
 
     public PongGame(Context context, int x, int y){
@@ -64,7 +64,44 @@ class PongGame extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
+        while(mPlaying){
+            long frameStartTime = System.currentTimeMillis();
 
+            if(!mPaused){
+                update();
+                detectCollisions();
+            }
+
+            draw();
+
+            //how long did thid loop take
+            long timeThisFrame = System.currentTimeMillis() - frameStartTime;
+
+
+            if(timeThisFrame>0){
+                mFPS = MILLIS_IN_SECOND/timeThisFrame;
+            }
+
+        }
+
+    }
+
+    private void detectCollisions() {
+        //checking if bat hit the ball
+
+        //check if ball hit edge of the screen
+
+        //check if ball hit bottom
+
+        //check if ball hit top
+
+        //check if ball hit left
+
+        //check if ball hit right
+    }
+
+    private void update() {
+        //update the bad and ball
     }
 
     //when player quits game
