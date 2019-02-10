@@ -51,4 +51,27 @@ class Ball {
         mXVelocity=mXVelocity*1.1f;
         mYVelocity=mYVelocity*1.1f;
     }
+
+    void batBounce(RectF batPosition){
+        //centre of bat
+        float batCenter = batPosition.left+(batPosition.width()/2);
+
+        //detect the centre of the ball
+        float ballCenter = mRect.left+(mBallWidth/2);
+
+        //where on the bat did the ball hit
+        float relativeIntersact = batCenter-ballCenter;
+
+        //pick a bounce direction
+        if(relativeIntersact<0){
+            //go right
+            mXVelocity = Math.abs(mXVelocity);
+        }else{
+            //go left
+            mXVelocity = -Math.abs(mXVelocity);
+
+        }
+
+        reverseYVelocity();
+    }
 }
