@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -39,6 +41,13 @@ class PongGame extends SurfaceView implements Runnable {
     private Thread mGameThread = null;
     private volatile boolean mPlaying;
     private boolean mPaused = true;
+
+
+    //sound
+    SoundPool sp;
+    int nowPlaying = -1;
+    int idFX = -1;
+    float volume  = 1;
 
 
 
@@ -90,16 +99,53 @@ class PongGame extends SurfaceView implements Runnable {
 
     private void detectCollisions() {
         //checking if bat hit the ball
+        if(RectF.intersects(mBat.getRect(),mBall.getRect())){
+            mBall.batBounce(mBat.getRect());
+            mBall.increaseVelocity();
+            mScore++;
+            //here sound
+        }
 
         //check if ball hit edge of the screen
 
+
         //check if ball hit bottom
+        if(mBall.getRect().bottom>mScreenY){
+            mBall.reverseYVelocity();
+
+            mLives--;
+
+            //sound
+
+            if(mLives==0){
+                mPaused=true;
+                startNewGame();
+            }
+        }
 
         //check if ball hit top
+        if(mBall.getRect().top<0){
+            mBall.reverseYVelocity();
 
+            //sound
+
+        }
         //check if ball hit left
 
+        if(mBall.getRect().left<0){
+            mBall.reverseXVelocity();
+
+            //sound
+
+        }
+
         //check if ball hit right
+
+        if(mBall.getRect().right>mScreenX){
+            mBall.reverseXVelocity();
+
+            //sound
+        }
     }
 
     private void update() {
