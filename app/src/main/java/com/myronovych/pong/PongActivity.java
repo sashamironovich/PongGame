@@ -27,14 +27,12 @@ public class PongActivity extends Activity {
         super.onResume();
         //more code later
         mPongGame.resume();
-
     }
 
     @Override
     protected void onPause(){
         super.onPause();
         //more code later
-
         mPongGame.pause();
     }
 }
